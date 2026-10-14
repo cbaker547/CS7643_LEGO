@@ -1,0 +1,19 @@
+name: LEGO_env
+channels:
+  - pytorch
+  - nvidia
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.14
+  - pytorch
+  - torchvision
+  - torchaudio
+  - pytorch-cuda=12.1
+  - pip
+  - pip:
+    - -r requirements.txt
+
+#Create and Launch with
+#conda env create -f environment.yml
+#conda activate my_pytorch_env
