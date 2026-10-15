@@ -41,15 +41,3 @@ renders/{split}/cameras.parquet     # structure_id, view, azimuth, elevation, di
 
 `renders/` is gitignored and lives on the shared Drive.
 
-## Headless servers
-
-```bash
-export PYOPENGL_PLATFORM=egl   # or osmesa
-```
-
-## Week-1 checklist
-
-- [ ] Render one hand-written 3-brick structure and eyeball it
-- [ ] Render 10 dataset structures × 2 views for hello-world
-- [ ] Time one render, estimate total time for the full set
-- [ ] Confirm it runs headless where we'll train

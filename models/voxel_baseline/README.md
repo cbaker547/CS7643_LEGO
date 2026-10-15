@@ -25,8 +25,3 @@ Same output format as the transformer, so `eval/` treats both models the same.
 
 - Image2Lego: https://arxiv.org/html/2108.08477v1 (Sections 2.2–2.4)
 
-## Checklist
-
-- [ ] Week 1: voxelizer in `eval/voxelize.py`, help A get the renderer running
-- [ ] Weeks 2–3: decoder trains on shape; greedy merge works; first scores from `eval/`
-- [ ] Weeks 4–5: add color head; freeze results

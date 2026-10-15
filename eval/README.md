@@ -21,19 +21,9 @@ Input: brick lists in the format from `data/README.md`.
 | Brick F1 | Exact match on (type, x, y, z) |
 | Validity | No overlapping bricks |
 | Connectivity | All bricks form one connected structure |
+Whatever else you think is necessary
 
 ## Visualization
 
 Use the shared renderer in `render/` for side-by-side figures: input image | ground truth | baseline | transformer.
 
-## Report
-
-- Start the report skeleton (Overleaf) in week 1, one section per owner.
-- Keep a `results/` table updated as runs land so week 7 is writing, not hunting for numbers.
-
-## Checklist
-
-- [ ] Week 1: metric functions + unit tests on hand-made tiny structures
-- [ ] Weeks 2–3: `evaluate_split` runs on both models; visible/hidden split
-- [ ] Weeks 4–5: ablation tables, error analysis with C
-- [ ] Weeks 6–7: figures, report
