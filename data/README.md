@@ -34,16 +34,9 @@ print(df.columns, len(df))
 |---|---|
 | 0 | Black |
 | 1 | Blue |
-| 2 | Green |
-| 4 | Red |
-| 14 | Yellow |
-| 15 | White |
-| 25 | Orange |
-| 70 | Reddish brown |
-| 71 | Light bluish gray |
-| 72 | Dark bluish gray |
+| etc | TBD |
 
-(Edit this list as needed; keep it short.)
+(Edit this list as needed, keep it short.)
 
 **Order**
 - Bricks sorted bottom-up: by `z`, then `y`, then `x`.
@@ -57,13 +50,3 @@ print(df.columns, len(df))
 - Use the dataset's existing train/test split.
 - **Validation:** carve 5–10% of *train* off with a fixed random seed. Do not take it from test.
 - Save the split ID lists to `data/splits/` and commit them so everyone uses the same split.
-
-## Week-1 checklist
-
-- [ ] Load `.arrow`, look at 5 structures by hand, confirm the position convention
-- [ ] Count: brick types, bricks per structure (min / median / 95th percentile / max)
-- [ ] Propose a max-brick cap from that distribution
-- [ ] Write `brick_types.csv` and finalize the palette
-- [ ] Color assignment v0 (palette per structure, color by region)
-- [ ] Write `processed/*.parquet` and `splits/`
-- [ ] Hand 10 structures to the hello-world pipeline
