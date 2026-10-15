@@ -4,16 +4,14 @@ from pathlib import Path
 import pandas as pd
 import re
 import numpy as np
-# file_path = ROOT / "data" / "raw" / "StableText2Brick" / "train"/"data-00000-of-00006.arrow"
 BRICK_RE = re.compile(r"(\d+)x(\d+)\s*\((\d+),\s*(\d+),\s*(\d+)\)")
-ROOT = Path(__file__).resolve().parents[1]  
+ROOT = Path(__file__).resolve().parents[1]
+DATA_DIR = Path(os.environ.get("LEGO_DATA_DIR", ROOT / "data"))
 def parse_bricks(text:str)->list[tuple[int,int,int,int,int]]:
     x= re.findall(BRICK_RE,text)
     return [tuple(int(v) for v in i) for i in x]
 
     
-                                  # df with stability_scores already dropped
-    print(f"{out.stat().st_size / 1e6:.1f} MB for {len(df)} structures")
 def check_convention(bricks, swap_axes=False):
     """bricks: list of (H, W, x, y, z).
     Hypothesis A (swap_axes=False): (x,y,z) is the min corner, H runs along x, W along y.
@@ -47,10 +45,8 @@ def min_z(tuple,idx):
 def inspect(file_path):
 
     ds = Dataset.from_file(str(file_path))
-    try:
-        ds=ds.remove_columns('stability_scores')
-    except:
-        print('stability_scores already removed')
+    if "stability_scores" in ds.column_names:
+        ds = ds.remove_columns("stability_scores")
     df=ds.to_pandas()
     # assert parse_bricks("2x6 (13,12,0)\n1x1 (15,17,0)\n") == [(2, 6, 13, 12, 0), (1, 1, 15, 17, 0)]
     # ("2x6 (13,12,0)== [(2, 6, 13, 12, 0)]
@@ -84,11 +80,11 @@ def inspect(file_path):
 
     order={'z, y, x ascending':df['bricks'].apply(lambda b: b == sorted(b, key=lambda t: (t[4], t[3], t[2]))).mean() 
     ,'z, x, y ascending':df['bricks'].apply(lambda b: b == sorted(b, key=lambda t: (t[4], t[2], t[3]))).mean() 
-    ,'z ascending, then x and y descending':df['bricks'].apply(lambda b: b == sorted(b, key=lambda t: (t[4], -t[2], -t[2]))).mean()}
+    ,'z ascending, then x and y descending':df['bricks'].apply(lambda b: b == sorted(b, key=lambda t: (t[4], -t[2], -t[3]))).mean()}
     print(f'Ordering of dimensions :{max(order,key=order.get)}')
 
     
-    print(f'Minimum Value z=0? {(ground==0).all()}\n')
+    print(f'Minimum Value z=0? {(ground==0).all()}')
     return df
 
 def main():
@@ -96,8 +92,8 @@ def main():
     # file_path = ROOT / "data" / "raw" / "StableText2Brick" / "train"/"data-00000-of-00006.arrow"
     # BRICK_RE = re.compile(r"(\d+)x(\d+)\s*\((\d+),\s*(\d+),\s*(\d+)\)")
 
-    train_path=ROOT /'data'/ 'raw'/'StableText2Brick'/'train'
-    test_path=ROOT /'data'/ 'raw'/'StableText2Brick'/'test'
+    train_path=DATA_DIR / 'raw'/'StableText2Brick'/'train'
+    test_path=DATA_DIR / 'raw'/'StableText2Brick'/'test'
     train_paths = sorted([(str(file.resolve()),file.stem) for file in train_path.glob("*.arrow")])
     test_paths = sorted([(str(file.resolve()),file.stem) for file in test_path.glob("*.arrow")])
     assert train_paths, f'No.arrow files found in {train_path}'
@@ -107,14 +103,14 @@ def main():
     for file,name in (train_paths):
         print(name)
         df=inspect(file)
-        out = ROOT / "data" / "processed" / 'train'/ f"{name}.parquet"
+        out = DATA_DIR  / "raw_shrunk" / 'train'/ f"{name}.parquet"
         out.parent.mkdir(parents=True, exist_ok=True)
         df.to_parquet(out)   
 
     for file,name in (test_paths):
         print(name)
         df=inspect(file)
-        out = ROOT / "data" / "processed" / 'test' /f"{name}.parquet"
+        out = DATA_DIR  / "raw_shrunk" / 'test' /f"{name}.parquet"
         out.parent.mkdir(parents=True, exist_ok=True)
         df.to_parquet(out)   
 

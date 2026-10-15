@@ -2,6 +2,19 @@
 
 Loads StableText2Brick, assigns colors, builds splits, and defines the **brick format** everyone codes against.
 
+# Setup
+On Machine
+Windows:
+'''
+setx LEGO_DATA_DIR "C:\path\to\your\data"
+'''
+Mac/Linux:
+'''
+export LEGO_DATA_DIR="/path/to/data" to ~/.zshrc or ~/.bashrc
+'''
+
+
+
 ## Where the data lives
 
 - Source: StableText2Brick `.arrow` files (~3 GB), in the shared Google Drive folder.
@@ -39,7 +52,7 @@ print(df.columns, len(df))
 (Edit this list as needed, keep it short.)
 
 **Order**
-- Bricks sorted bottom-up: by `z`, then `y`, then `x`.
+- Bricks sorted bottom-up: by `z`, then `x` descending, then `y` descending.
 
 **Storage**
 - One Parquet file per split: `data/processed/{train,val,test}.parquet`
